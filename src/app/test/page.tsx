@@ -1,18 +1,7 @@
 'use client'
 import Image from "next/image";
-import { useTranslation } from "react-i18next";
-import i18n from "../../i18n"
 
 export default function Home() {
-  const { t } = useTranslation("common");
-
-  const switchLanguage = () => {
-    if (i18n.language === "en") {
-      i18n.changeLanguage("fr");
-    } else {
-      i18n.changeLanguage("en");
-    }
-  };
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -25,8 +14,7 @@ export default function Home() {
           height={38}
           priority
         />
-        <h1>{t("welcome")}</h1>
-        <button onClick={switchLanguage}>SWITCH</button>
+        <h1>TEST</h1>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
