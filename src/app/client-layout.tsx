@@ -1,50 +1,33 @@
 // app/client-layout.tsx (Client Component)
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { appWithTranslation } from 'next-i18next';
 import { useTheme } from 'next-themes';
+import ThemeToggleButton from './components/ThemeToggleButton';
 import "../../i18n"
 
 export function ClientLayout({ children }: { children: ReactNode }) {
-    const [isDarkMode, setIsDarkMode] = useState(false); // Track whether dark mode is active
-    const [mounted, setMounted] = useState(false);
-    const { theme, setTheme } = useTheme();
-
-    // Check for saved theme in localStorage or fallback to system preference
+    // Set the initial theme based on localStorage or default to 'light' if not set
     useEffect(() => {
+        // Check for a saved theme in localStorage
         const savedTheme = localStorage.getItem('theme');
+
+        // If no saved theme, check the user's system preference
         if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark');
+            document.documentElement.classList.add(savedTheme);
         } else {
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setIsDarkMode(systemPrefersDark);
+            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const initialTheme = prefersDarkMode ? 'dark' : 'light';
+            document.documentElement.classList.add(initialTheme);
+            localStorage.setItem('theme', initialTheme);
         }
-        setMounted(true);
     }, []);
 
-    // Apply the dark mode class based on the isDarkMode state
-    useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark'); // Save preference
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light'); // Save preference
-        }
-    }, [isDarkMode]);
-
     return (
-        <div className={`theme-${theme} bg-white dark:bg-gray-900 text-gray-900 dark:text-white`}>
+        <div className={`bg-white dark:bg-gray-900 text-gray-900 dark:text-white`}>
         <header className="p-4 flex justify-between items-center">
-            <div>
-            <button
-                    onClick={() => setIsDarkMode(!isDarkMode)} // Toggle between light and dark
-                    className="p-2 bg-gray-200 dark:bg-gray-800 rounded-md"
-                >
-                    {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                </button>
-            </div>
+            <ThemeToggleButton />
         </header>
         {children}
         </div>

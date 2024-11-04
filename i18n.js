@@ -20,6 +20,12 @@ i18n
         resources,
         fallbackLng: 'fr',
         debug: true,
+        detection: {
+            order: ['localStorage', 'navigator'],
+            caches: ['localStorage'],
+            checkWhitelist: true,
+            lookupLocalStorage: typeof window !== 'undefined',
+        },
         interpolation: {
             escapeValue: false,
         },
