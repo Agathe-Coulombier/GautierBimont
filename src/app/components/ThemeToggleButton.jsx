@@ -1,16 +1,24 @@
-'use client'
-import { useState, useEffect } from "react";
+'use client';
+import { useState, useEffect } from 'react';
 
 export default function ThemeToggleButton() {
-    
-    // Toggle theme and update both localStorage and document class
-    const toggleTheme = () => {
-        const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
-        document.documentElement.classList.remove(currentTheme);
-        document.documentElement.classList.add(newTheme);
+    useEffect(() => {
+        // Check the current theme on initial render
+        const savedTheme = localStorage.getItem('theme');
+        const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+        document.documentElement.classList.toggle('dark', isDark);
+        setIsDarkMode(isDark);
+    }, []);
+
+    const toggleTheme = () => {
+        const newTheme = isDarkMode ? 'light' : 'dark';
+        document.documentElement.classList.toggle('dark', !isDarkMode);
+        document.documentElement.classList.toggle('light', isDarkMode);
         localStorage.setItem('theme', newTheme);
+        setIsDarkMode(!isDarkMode);
     };
 
     return (
@@ -18,7 +26,7 @@ export default function ThemeToggleButton() {
             onClick={toggleTheme}
             className="p-2 bg-gray-200 dark:bg-gray-800 rounded-md"
         >
-            {document.documentElement.classList.contains('dark') ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
     );
 }

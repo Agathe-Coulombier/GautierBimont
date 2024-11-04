@@ -1,19 +1,26 @@
 'use client'
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { appWithTranslation } from 'next-i18next';
 import i18n from "../../i18n"
 
-function Home() {
+export default function Home() {
   const { t } = useTranslation("common");
 
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure the component only renders language content after the client has mounted
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const switchLanguage = () => {
-    if (i18n.language === "en") {
-      i18n.changeLanguage("fr");
-    } else {
-      i18n.changeLanguage("en");
-    }
+    const newLanguage = i18n.language === "en" ? "fr" : "en";
+    i18n.changeLanguage(newLanguage);
   };
+
+  // If not on the client yet, show a loading state to prevent mismatch
+  if (!isClient) return <div>Loading...</div>;
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -115,5 +122,3 @@ function Home() {
     </div>
   );
 }
-
-export default appWithTranslation(Home);

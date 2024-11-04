@@ -2,11 +2,12 @@
 'use client';
 
 import { ReactNode, useEffect } from 'react';
+import { appWithTranslation } from 'next-i18next';
 import { useTheme } from 'next-themes';
 import ThemeToggleButton from './components/ThemeToggleButton';
 import "../../i18n"
 
-export default function ClientLayout({ children }: { children: ReactNode }) {
+function ClientLayout({ children }: { children: ReactNode }) {
     // Set the initial theme based on localStorage or default to 'light' if not set
     useEffect(() => {
         // Check for a saved theme in localStorage
@@ -33,3 +34,4 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
     );
 }
 
+export default appWithTranslation(ClientLayout);
