@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ClientLayout } from "./client-layout";
+import ClientLayout from "./client-layout";
 import { ThemeProvider } from 'next-themes';
 import localFont from "next/font/local";
 import "./globals.css";

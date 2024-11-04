@@ -1,9 +1,10 @@
 'use client'
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import { appWithTranslation } from 'next-i18next';
 import i18n from "../../i18n"
 
-export default function Home() {
+function Home() {
   const { t } = useTranslation("common");
 
   const switchLanguage = () => {
@@ -114,3 +115,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default appWithTranslation(Home);
