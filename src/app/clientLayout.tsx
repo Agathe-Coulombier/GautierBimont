@@ -2,8 +2,6 @@
 'use client';
 
 import { ReactNode, useEffect } from 'react';
-import { appWithTranslation } from 'next-i18next';
-import { useTheme } from 'next-themes';
 import ThemeToggleButton from './components/ThemeToggleButton';
 import "../../i18n"
 
@@ -34,4 +32,4 @@ function ClientLayout({ children }: { children: ReactNode }) {
     );
 }
 
-export default appWithTranslation(ClientLayout);
+export default ClientLayout;
